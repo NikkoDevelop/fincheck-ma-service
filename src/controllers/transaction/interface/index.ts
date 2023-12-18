@@ -24,3 +24,16 @@ export interface IUpdateTransaction {
 export interface IDeleteTransaction {
   transactionId: string;
 }
+
+export interface IFindTransactions {
+  bankAccountId?: string;
+  type?: TransactionTypeEnum;
+  amount?: {
+    start?: number;
+    end?: number
+  };
+  period?: {
+    start?: Date;
+    end?: Date;
+  }
+}

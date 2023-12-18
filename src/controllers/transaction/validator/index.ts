@@ -67,3 +67,32 @@ export const DeleteTransactionSchema = z.object({
     })
     .min(1)
 }).strict();
+
+export const FindTransactionsSchema = z.object({
+  bankAccountId: z
+    .string()
+    .optional(),
+  type: z
+    .enum([TransactionTypeEnum.expense, TransactionTypeEnum.income])
+    .optional(),
+  amount: z
+    .object({
+      start: z
+        .number()
+        .optional(),
+      end: z
+        .number()
+        .optional()
+    })
+    .optional(),
+  period: z
+    .object({
+      start: z
+        .date()
+        .optional(),
+      end: z
+        .date()
+        .optional()
+    })
+    .optional()
+}).strict();

@@ -2,14 +2,22 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 
 import { logger } from '../../log';
 import { ErrorReplyData, IBaseAuthHeader } from '../../types';
-import { ICreateTransaction, IDeleteTransaction, IGetTransaction, IUpdateTransaction } from './interface';
+import {
+  ICreateTransaction,
+  IDeleteTransaction,
+  IFindTransactions,
+  IGetTransaction,
+  IUpdateTransaction
+} from './interface';
 import { CreateTransactionService } from './service/CreateTransaction.service';
 import { DeleteTransactionService } from './service/DeleteTransaction.service';
+import { FindTransactionsService } from './service/FindTransactions.service';
 import { GetTransactionService } from './service/GetTransaction.service';
 import { UpdateTransactionService } from './service/UpdateTransaction.service';
 import {
   CreateTransactionSchema,
   DeleteTransactionSchema,
+  FindTransactionsSchema,
   GetTransactionSchema,
   UpdateTransactionSchema
 } from './validator';
@@ -174,11 +182,54 @@ export const DeleteTransactionController = async (
   }
 };
 
+export const FindTransactionsController = async (
+  req: FastifyRequest<{ Body: IFindTransactions, Headers: IBaseAuthHeader }>,
+  reply: FastifyReply
+) => {
+  try {
+    const data = FindTransactionsSchema.parse(req.params);
+
+    const { message, status, transactions } = await FindTransactionsService(data, req.headers.userId);
+
+    if (!transactions) {
+      reply
+        .status(status)
+        .send({
+          data: {
+            message
+          }
+        });
+      return;
+    }
+
+    reply
+      .status(status)
+      .send({
+        data: {
+          message,
+          transactions
+        }
+      });
+  } catch (error) {
+    error instanceof Error &&
+      logger.error(`FindTransactionsController - ${error.message}`);
+
+    reply
+      .status(ErrorReplyData.SEND_ERROR.status)
+      .send({
+        data: {
+          message: ErrorReplyData.SEND_ERROR.message
+        }
+      });
+  }
+};
+
 const TransactionController = {
   CreateTransactionController,
   GetTransactionController,
   UpdateTransactionController,
-  DeleteTransactionController
+  DeleteTransactionController,
+  FindTransactionsController
 };
 
 export default TransactionController;

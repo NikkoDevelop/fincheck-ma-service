@@ -16,5 +16,8 @@ export const transactionRouter = (fastify: FastifyInstance, opts, next: (err?: E
   fastify.delete('/:transactionId', { preHandler: [AuthMiddleware] },
     TransactionController.DeleteTransactionController);
 
+  fastify.post('/find', { preHandler: [AuthMiddleware] },
+    TransactionController.FindTransactionsController);
+
   next();
 };
