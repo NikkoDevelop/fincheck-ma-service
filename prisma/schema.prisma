@@ -1,0 +1,66 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String        @id @default(uuid())
+  email        String        @unique
+  passwordHash String
+  role         UserRoleEnum
+  bankAccounts BankAccount[]
+}
+
+model BankAccount {
+  id           String              @id @default(uuid())
+  title        String
+  type         BankAccountTypeEnum
+  transactions Transaction[]
+  user         User                @relation(fields: [userId], references: [id])
+  userId       String
+}
+
+model IncomeCategory {
+  id           String        @id @default(uuid())
+  title        String
+  transactions Transaction[]
+}
+
+model ExpenseCategory {
+  id           String        @id @default(uuid())
+  title        String
+  transactions Transaction[]
+}
+
+model Transaction {
+  id                String              @id @default(uuid())
+  createdAt         DateTime            @default(now())
+  type              TransactionTypeEnum
+  amount            Float
+  description       String
+  bankAccount       BankAccount         @relation(fields: [bankAccountId], references: [id])
+  bankAccountId     String
+  incomeCategory    IncomeCategory?     @relation(fields: [incomeCategoryId], references: [id])
+  incomeCategoryId  String
+  expenseCategory   ExpenseCategory?    @relation(fields: [expenseCategoryId], references: [id])
+  expenseCategoryId String
+}
+
+enum UserRoleEnum {
+  resident
+  admin
+}
+
+enum TransactionTypeEnum {
+  income
+  expense
+}
+
+enum BankAccountTypeEnum {
+  credit
+  debit
+}
