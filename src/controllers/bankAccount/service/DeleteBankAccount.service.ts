@@ -21,8 +21,8 @@ export const DeleteBankAccountService = async (
 
     if (!deletedBankAccount) {
       return {
-        message: ErrorReplyData.EXIST_USER_ERROR.message,
-        status: ErrorReplyData.EXIST_USER_ERROR.status
+        message: ErrorReplyData.DELETE_ERROR.message,
+        status: ErrorReplyData.DELETE_ERROR.status
       };
     }
 

@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { logger } from 'src/log';
 
+import { logger } from '../../log';
 import { ErrorReplyData, IBaseAuthHeader } from '../../types';
 import { ICreateBankAccount, IDeleteBankAccount, IGetBankAccount, IUpdateBankAccount } from './interface';
 import { CreateBankAccountService } from './service/CreateBankAccount.service';

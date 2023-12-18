@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { logger } from 'src/log';
 
+import { logger } from '../../log';
 import { ErrorReplyData } from '../../types';
 import { IAdCreateCategory, IAdDeleteCategory, IAdGetCategory, IAdUpdateCategory } from './interface';
 import { AdCreateCategoryService } from './service/AdCreateCategory.service';

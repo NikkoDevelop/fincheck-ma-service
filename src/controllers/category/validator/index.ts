@@ -1,5 +1,6 @@
-import { CategoryTypeEnum } from 'src/types';
 import { z } from 'zod';
+
+import { CategoryTypeEnum } from '../../../types';
 
 export const AdCreateCategorySchema = z.object({
   title: z

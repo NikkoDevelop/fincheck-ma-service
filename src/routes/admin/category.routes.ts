@@ -1,7 +1,8 @@
 import { FastifyInstance } from 'fastify';
-import CategoryController from 'src/controllers/category';
-import { AdminMiddleware } from 'src/middleware/admin.middleware';
-import { AuthMiddleware } from 'src/middleware/auth.middleware';
+
+import CategoryController from '../../controllers/category';
+import { AdminMiddleware } from '../../middleware/admin.middleware';
+import { AuthMiddleware } from '../../middleware/auth.middleware';
 
 export const categoryRouter = (fastify: FastifyInstance, opts, next: (err?: Error) => void) => {
   fastify.post('/', { preHandler: [AuthMiddleware, AdminMiddleware] },

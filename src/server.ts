@@ -9,6 +9,7 @@ import { categoryRouter } from './routes/admin/category.routes';
 import { userRouter } from './routes/admin/user.routes';
 import { authRouter } from './routes/auth.routes';
 import { bankAccountRouter } from './routes/bankAccount.routes';
+import { transactionRouter } from './routes/transaction.routes';
 
 const server = fastify();
 
@@ -50,10 +51,14 @@ export const startServer = async () => {
       prefix: '/api/admin/category'
     });
 
-    /* =============== BANK ACCOUNT ROUTES ================== */
+    /* ================= RESIDENT ROUTES ==================== */
 
     await server.register(bankAccountRouter, {
       prefix: '/api/bank'
+    });
+
+    await server.register(transactionRouter, {
+      prefix: '/api/transaction'
     });
 
     await server.ready().then(() => {

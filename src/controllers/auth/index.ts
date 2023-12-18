@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { logger } from 'src/log';
 
+import { logger } from '../../log';
 import { ErrorReplyData } from '../../types';
 import { ISignInUser, ISignUpUser } from './interface';
 import { RefreshTokenService } from './service/RefreshToken.service';

@@ -1,6 +1,6 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { logger } from 'src/log';
 
+import { logger } from '../../log';
 import { ErrorReplyData } from '../../types';
 import { IAdCreateUser, IAdDeleteUser, IAdGetUser, IAdUpdateUser } from './interface';
 import { AdCreateUserService } from './service/AdCreateUser.service';

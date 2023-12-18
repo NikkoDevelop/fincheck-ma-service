@@ -41,7 +41,7 @@ model Transaction {
   createdAt         DateTime            @default(now())
   type              TransactionTypeEnum
   amount            Float
-  description       String
+  description       String?
   bankAccount       BankAccount         @relation(fields: [bankAccountId], references: [id])
   bankAccountId     String
   incomeCategory    IncomeCategory?     @relation(fields: [incomeCategoryId], references: [id])
