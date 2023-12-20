@@ -4,6 +4,7 @@ dist
 
 # Logs
 *.log
-*/log/*
+
+logs
 
 .env
