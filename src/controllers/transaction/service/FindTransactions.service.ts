@@ -49,6 +49,23 @@ export const FindTransactionsService = async (
             ]
           }
         ]
+      },
+      include: {
+        incomeCategory: {
+          select: {
+            title: true
+          }
+        },
+        expenseCategory: {
+          select: {
+            title: true
+          }
+        },
+        bankAccount: {
+          select: {
+            title: true
+          }
+        }
       }
     });
 
