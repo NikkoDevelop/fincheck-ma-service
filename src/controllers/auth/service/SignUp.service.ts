@@ -29,7 +29,7 @@ export const SignUpUserService = async (data: ISignUpUser): Promise<IReturnSignU
 
     const isEmailExist = await validate(data.email);
 
-    if (!isEmailExist.valid) {
+    if (!isEmailExist.validators.regex?.valid) {
       return {
         message: ErrorReplyData.EXIST_EMAIL_ERROR.message,
         status: ErrorReplyData.EXIST_EMAIL_ERROR.status

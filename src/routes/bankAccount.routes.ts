@@ -16,5 +16,8 @@ export const bankAccountRouter = (fastify: FastifyInstance, opts, next: (err?: E
   fastify.delete('/:bankAccountId', { preHandler: [AuthMiddleware] },
     BankAccountController.DeleteBankAccountController);
 
+  fastify.get('/accounts', { preHandler: [AuthMiddleware] },
+    BankAccountController.GetMyBankAccountsController);
+
   next();
 };

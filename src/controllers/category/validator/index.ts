@@ -48,3 +48,9 @@ export const AdDeleteCategorySchema = z.object({
     required_error: 'The type is required!'
   })
 }).strict();
+
+export const GetCategoriesSchema = z.object({
+  type: z.enum([CategoryTypeEnum.expense, CategoryTypeEnum.income], {
+    required_error: 'The type is required!'
+  })
+}).strict();

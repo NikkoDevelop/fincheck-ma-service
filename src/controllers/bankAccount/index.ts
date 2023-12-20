@@ -6,6 +6,7 @@ import { ICreateBankAccount, IDeleteBankAccount, IGetBankAccount, IUpdateBankAcc
 import { CreateBankAccountService } from './service/CreateBankAccount.service';
 import { DeleteBankAccountService } from './service/DeleteBankAccount.service';
 import { GetBankAccountService } from './service/GetBankAccount.service';
+import { GetMyBankAccountsService } from './service/GetMyBankAccounts.service';
 import { UpdateBankAccountService } from './service/UpdateBankAccount.service';
 import {
   CreateBankAccountSchema,
@@ -174,11 +175,52 @@ export const DeleteBankAccountController = async (
   }
 };
 
+export const GetMyBankAccountsController = async (
+  req: FastifyRequest<{ Headers: IBaseAuthHeader }>,
+  reply: FastifyReply
+) => {
+  try {
+    const { message, status, accounts } = await GetMyBankAccountsService(req.headers.userId);
+
+    if (!accounts) {
+      reply
+        .status(status)
+        .send({
+          data: {
+            message
+          }
+        });
+      return;
+    }
+
+    reply
+      .status(status)
+      .send({
+        data: {
+          message,
+          accounts
+        }
+      });
+  } catch (error) {
+    error instanceof Error &&
+      logger.error(`GetMyBankAccountsController - ${error.message}`);
+
+    reply
+      .status(ErrorReplyData.SEND_ERROR.status)
+      .send({
+        data: {
+          message: ErrorReplyData.SEND_ERROR.message
+        }
+      });
+  }
+};
+
 const BankAccountController = {
   CreateBankAccountController,
   GetBankAccountController,
   UpdateBankAccountController,
-  DeleteBankAccountController
+  DeleteBankAccountController,
+  GetMyBankAccountsController
 };
 
 export default BankAccountController;

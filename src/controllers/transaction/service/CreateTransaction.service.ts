@@ -54,16 +54,20 @@ export const CreateTransactionService = async (
         amount: data.amount,
         description: data.description,
         type: data.type,
-        incomeCategory: {
-          connect: {
-            id: data.type === CategoryTypeEnum.income ? category.id : undefined
+        incomeCategory: data.type === CategoryTypeEnum.income
+          ? {
+            connect: {
+              id: category.id
+            }
           }
-        },
-        expenseCategory: {
-          connect: {
-            id: data.type === CategoryTypeEnum.expense ? category.id : undefined
+          : undefined,
+        expenseCategory: data.type === CategoryTypeEnum.expense
+          ? {
+            connect: {
+              id: category.id
+            }
           }
-        },
+          : undefined,
         bankAccount: {
           connect: {
             id: bankAccount.id

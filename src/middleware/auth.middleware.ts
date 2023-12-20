@@ -6,8 +6,7 @@ import { verifyAccessToken } from '../utils/jwt';
 export const AuthMiddleware = async (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   req: FastifyRequest<{ Body: any, Params: any, Querystring: any, Headers: any }>,
-  reply: FastifyReply,
-  next: () => void
+  reply: FastifyReply
 ) => {
   if (!req.headers.authorization) {
     reply
@@ -34,6 +33,4 @@ export const AuthMiddleware = async (
   req.headers.role = parsedToken.role;
 
   req.headers.userId = parsedToken.userId;
-
-  next();
 };

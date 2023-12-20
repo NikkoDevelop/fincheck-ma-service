@@ -9,6 +9,7 @@ import { categoryRouter } from './routes/admin/category.routes';
 import { userRouter } from './routes/admin/user.routes';
 import { authRouter } from './routes/auth.routes';
 import { bankAccountRouter } from './routes/bankAccount.routes';
+import { categoryBaseRouter } from './routes/category.routes';
 import { transactionRouter } from './routes/transaction.routes';
 
 const server = fastify();
@@ -59,6 +60,10 @@ export const startServer = async () => {
 
     await server.register(transactionRouter, {
       prefix: '/api/transaction'
+    });
+
+    await server.register(categoryBaseRouter, {
+      prefix: '/api/category'
     });
 
     await server.ready().then(() => {

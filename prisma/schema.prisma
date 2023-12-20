@@ -45,9 +45,9 @@ model Transaction {
   bankAccount       BankAccount         @relation(fields: [bankAccountId], references: [id])
   bankAccountId     String
   incomeCategory    IncomeCategory?     @relation(fields: [incomeCategoryId], references: [id])
-  incomeCategoryId  String
+  incomeCategoryId  String?
   expenseCategory   ExpenseCategory?    @relation(fields: [expenseCategoryId], references: [id])
-  expenseCategoryId String
+  expenseCategoryId String?
 }
 
 enum UserRoleEnum {

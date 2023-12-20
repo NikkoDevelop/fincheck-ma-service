@@ -20,3 +20,7 @@ export interface IAdDeleteCategory {
   categoryId: string;
   type: CategoryTypeEnum;
 }
+
+export interface IGetCategories {
+  type: CategoryTypeEnum;
+}

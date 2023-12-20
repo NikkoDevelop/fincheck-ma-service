@@ -6,8 +6,7 @@ import { ErrorReplyData } from '../types';
 export const AdminMiddleware = async (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   req: FastifyRequest<{ Body: any, Params: any, Querystring: any, Headers: any }>,
-  reply: FastifyReply,
-  next: () => void
+  reply: FastifyReply
 ) => {
   if (!req.headers.role) {
     reply
@@ -23,9 +22,5 @@ export const AdminMiddleware = async (
       .send({
         message: ErrorReplyData.ACCESS_DENIED.message
       });
-
-    return;
   }
-
-  next();
 };

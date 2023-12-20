@@ -2,16 +2,18 @@ import { FastifyReply, FastifyRequest } from 'fastify';
 
 import { logger } from '../../log';
 import { ErrorReplyData } from '../../types';
-import { IAdCreateCategory, IAdDeleteCategory, IAdGetCategory, IAdUpdateCategory } from './interface';
+import { IAdCreateCategory, IAdDeleteCategory, IAdGetCategory, IAdUpdateCategory, IGetCategories } from './interface';
 import { AdCreateCategoryService } from './service/AdCreateCategory.service';
 import { AdDeleteCategoryService } from './service/AdDeleteCategory.service';
 import { AdGetCategoryService } from './service/AdGetCategory.service';
 import { AdUpdateCategoryService } from './service/AdUpdateCategory.service';
+import { GetCategoriesService } from './service/GetCategories.service';
 import {
   AdCreateCategorySchema,
   AdDeleteCategorySchema,
   AdGetCategorySchema,
-  AdUpdateCategorySchema
+  AdUpdateCategorySchema,
+  GetCategoriesSchema
 } from './validator';
 
 export const AdCreateCategoryController = async (
@@ -173,11 +175,54 @@ export const AdDeleteCategoryController = async (
   }
 };
 
+export const GetCategoriesController = async (
+  req: FastifyRequest<{ Params: IGetCategories }>,
+  reply: FastifyReply
+) => {
+  try {
+    const data = GetCategoriesSchema.parse(req.params);
+
+    const { message, status, categories } = await GetCategoriesService(data);
+
+    if (!categories) {
+      reply
+        .status(status)
+        .send({
+          data: {
+            message
+          }
+        });
+      return;
+    }
+
+    reply
+      .status(status)
+      .send({
+        data: {
+          message,
+          categories
+        }
+      });
+  } catch (error) {
+    error instanceof Error &&
+      logger.error(`GetCategoriesController - ${error.message}`);
+
+    reply
+      .status(ErrorReplyData.SEND_ERROR.status)
+      .send({
+        data: {
+          message: ErrorReplyData.SEND_ERROR.message
+        }
+      });
+  }
+};
+
 const CategoryController = {
   AdCreateCategoryController,
   AdGetCategoryController,
   AdUpdateCategoryController,
-  AdDeleteCategoryController
+  AdDeleteCategoryController,
+  GetCategoriesController
 };
 
 export default CategoryController;

@@ -9,7 +9,7 @@ export const createToken = (user: User): string => {
     role: user.role
   }, JWT_ACCESS_SECRET, {
     algorithm: 'HS256',
-    expiresIn: '15m'
+    expiresIn: '48h'
   });
 };
 
