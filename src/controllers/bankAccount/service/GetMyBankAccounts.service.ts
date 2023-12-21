@@ -17,6 +17,9 @@ export const GetMyBankAccountsService = async (
         user: {
           id: userId
         }
+      },
+      include: {
+        transactions: true
       }
     });
 

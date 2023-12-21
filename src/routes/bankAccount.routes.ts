@@ -19,5 +19,8 @@ export const bankAccountRouter = (fastify: FastifyInstance, opts, next: (err?: E
   fastify.get('/accounts', { preHandler: [AuthMiddleware] },
     BankAccountController.GetMyBankAccountsController);
 
+  fastify.get('/statistic', { preHandler: [AuthMiddleware] },
+    BankAccountController.GetBankAccountsStatisticController);
+
   next();
 };

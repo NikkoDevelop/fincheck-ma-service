@@ -6,6 +6,7 @@ import { ICreateBankAccount, IDeleteBankAccount, IGetBankAccount, IUpdateBankAcc
 import { CreateBankAccountService } from './service/CreateBankAccount.service';
 import { DeleteBankAccountService } from './service/DeleteBankAccount.service';
 import { GetBankAccountService } from './service/GetBankAccount.service';
+import { GetBankAccountsStatisticService } from './service/GetBankAccountsStatistic.service';
 import { GetMyBankAccountsService } from './service/GetMyBankAccounts.service';
 import { UpdateBankAccountService } from './service/UpdateBankAccount.service';
 import {
@@ -215,12 +216,53 @@ export const GetMyBankAccountsController = async (
   }
 };
 
+export const GetBankAccountsStatisticController = async (
+  req: FastifyRequest<{ Headers: IBaseAuthHeader }>,
+  reply: FastifyReply
+) => {
+  try {
+    const { message, status, file } = await GetBankAccountsStatisticService(req.headers.userId);
+
+    if (!file) {
+      reply
+        .status(status)
+        .send({
+          data: {
+            message
+          }
+        });
+      return;
+    }
+
+    reply
+      .status(status)
+      .send({
+        data: {
+          message,
+          file
+        }
+      });
+  } catch (error) {
+    error instanceof Error &&
+      logger.error(`GetBankAccountsStatisticController - ${error.message}`);
+
+    reply
+      .status(ErrorReplyData.SEND_ERROR.status)
+      .send({
+        data: {
+          message: ErrorReplyData.SEND_ERROR.message
+        }
+      });
+  }
+};
+
 const BankAccountController = {
   CreateBankAccountController,
   GetBankAccountController,
   UpdateBankAccountController,
   DeleteBankAccountController,
-  GetMyBankAccountsController
+  GetMyBankAccountsController,
+  GetBankAccountsStatisticController
 };
 
 export default BankAccountController;
