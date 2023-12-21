@@ -19,7 +19,12 @@ export const GetMyBankAccountsService = async (
         }
       },
       include: {
-        transactions: true
+        transactions: {
+          include: {
+            expenseCategory: true,
+            incomeCategory: true
+          }
+        }
       }
     });
 
