@@ -25,28 +25,24 @@ export const FindTransactionsService = async (
             }
           },
           {
-            AND: [
-              {
-                bankAccount: {
-                  id: data.bankAccountId
-                }
-              },
-              {
-                type: data.type
-              },
-              {
-                amount: {
-                  lte: data.amount ? data.amount.end : undefined,
-                  gte: data.amount ? data.amount.start : undefined
-                }
-              },
-              {
-                createdAt: {
-                  lte: data.period ? data.period.end : undefined,
-                  gte: data.period ? data.period.start : undefined
-                }
-              }
-            ]
+            bankAccount: {
+              id: data.bankAccountId
+            }
+          },
+          {
+            type: data.type
+          },
+          {
+            amount: {
+              lte: data.amount ? data.amount.end : undefined,
+              gte: data.amount ? data.amount.start : undefined
+            }
+          },
+          {
+            createdAt: {
+              lte: data.period ? data.period.end : undefined,
+              gte: data.period ? data.period.start : undefined
+            }
           }
         ]
       },
