@@ -34,7 +34,7 @@ export const GetBankAccountsStatisticService = async (
       };
     }
 
-    const fileName = new Date().toISOString();
+    const fileName = new Date().getMilliseconds();
     const pdfPath = path.join(__dirname, '../../../../export', `output_${fileName}.pdf`);
     const doc = new PDFDocument();
     const stream = fs.createWriteStream(pdfPath);
