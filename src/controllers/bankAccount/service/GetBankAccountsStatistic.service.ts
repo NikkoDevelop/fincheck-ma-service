@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import { PDFDocument } from 'pdfkit';
+import PDFDocument from 'pdfkit';
 
 import { logger } from '../../../log';
 import prisma from '../../../prisma';
