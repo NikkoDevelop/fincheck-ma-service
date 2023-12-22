@@ -10,6 +10,7 @@ import { userRouter } from './routes/admin/user.routes';
 import { authRouter } from './routes/auth.routes';
 import { bankAccountRouter } from './routes/bankAccount.routes';
 import { categoryBaseRouter } from './routes/category.routes';
+import { fileRouter } from './routes/file.router';
 import { transactionRouter } from './routes/transaction.routes';
 
 const server = fastify();
@@ -53,6 +54,10 @@ export const startServer = async () => {
     });
 
     /* ================= RESIDENT ROUTES ==================== */
+
+    await server.register(fileRouter, {
+      prefix: '/api/download'
+    });
 
     await server.register(bankAccountRouter, {
       prefix: '/api/bank'

@@ -1,4 +1,5 @@
 import * as fs from 'fs';
+import path from 'path';
 import PDFDocument from 'pdfkit';
 
 import { logger } from '../../../log';
@@ -6,7 +7,7 @@ import prisma from '../../../prisma';
 import { ErrorReplyData, IBaseServiceReply, SuccessReplyData } from '../../../types';
 
 interface IReturnGetBankAccountsStatisticServiceData extends IBaseServiceReply {
-  file?: fs.WriteStream,
+  file?: string,
 }
 
 interface Table {
@@ -36,8 +37,10 @@ export const GetBankAccountsStatisticService = async (
       };
     }
 
+    const fileName = new Date().toISOString();
+    const pdfPath = path.join(__dirname, '../../../export', `output_${fileName}.pdf`);
     const doc = new PDFDocument();
-    const stream = fs.createWriteStream('output.pdf');
+    const stream = fs.createWriteStream(pdfPath);
 
     doc.pipe(stream);
 
@@ -64,10 +67,14 @@ export const GetBankAccountsStatisticService = async (
 
     doc.end();
 
+    await new Promise((resolve) => {
+      stream.on('finish', resolve);
+    });
+
     return {
       message: SuccessReplyData.SEND_SUCCESS.message,
       status: SuccessReplyData.SEND_SUCCESS.status,
-      file: stream
+      file: `output_${fileName}.pdf`
     };
   } catch (error) {
     error instanceof Error &&
