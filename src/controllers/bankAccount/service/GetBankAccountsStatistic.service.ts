@@ -1,10 +1,12 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import PDFDocument from 'pdfkit';
 
 import { logger } from '../../../log';
 import prisma from '../../../prisma';
 import { ErrorReplyData, IBaseServiceReply, SuccessReplyData } from '../../../types';
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const PDFDocument = require('pdfkit');
 
 interface IReturnGetBankAccountsStatisticServiceData extends IBaseServiceReply {
   file?: string,
