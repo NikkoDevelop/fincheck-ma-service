@@ -12,11 +12,6 @@ interface IReturnGetBankAccountsStatisticServiceData extends IBaseServiceReply {
   file?: string,
 }
 
-interface Table {
-  headers: string[];
-  rows: (number | string)[][];
-}
-
 export const GetBankAccountsStatisticService = async (
   userId: string
 ): Promise<IReturnGetBankAccountsStatisticServiceData> => {
@@ -49,22 +44,40 @@ export const GetBankAccountsStatisticService = async (
     doc.fontSize(16).text('Банковские транзакции', { align: 'center' });
     doc.moveDown();
 
-    const table: Table = {
-      headers: ['Банковский счет', 'Название', 'ID транзикции', 'Тип', 'Сумма', 'Описание'],
-      rows: []
-    };
+    const tableHeaders = ['Банковский счет', 'Название', 'ID транзикции', 'Тип', 'Сумма', 'Описание'];
 
-    foundBankAccounts.forEach((bankAccount) => {
-      table.rows.push([bankAccount.id, bankAccount.title, '', '', '', '']);
-
-      bankAccount.transactions.forEach((transaction) => {
-        table.rows.push(['', '', transaction.id, transaction.type, transaction.amount, transaction.description || '']);
-      });
+    doc.font('Helvetica-Bold');
+    tableHeaders.forEach((header, index) => {
+      doc.text(header, index * 100, doc.y, { width: 100, align: 'center' });
     });
 
-    doc.table(table, {
-      prepareHeader: () => doc.font('Helvetica-Bold'),
-      prepareRow: () => doc.font('Helvetica')
+    doc.font('Helvetica');
+    let yOffset = doc.y;
+
+    foundBankAccounts.forEach((bankAccount) => {
+      const row = [
+        bankAccount.id,
+        bankAccount.title,
+        '',
+        '',
+        '',
+        ''
+      ];
+
+      bankAccount.transactions.forEach((transaction) => {
+        row[2] = transaction.id;
+        row[3] = transaction.type;
+        row[4] = transaction.amount.toString();
+        row[5] = transaction.description || '';
+
+        doc.y = yOffset;
+        row.forEach((data, index) => {
+          doc.text(data, index * 100, doc.y, { width: 100, align: 'center' });
+        });
+
+        doc.moveDown();
+        yOffset = doc.y;
+      });
     });
 
     doc.end();
