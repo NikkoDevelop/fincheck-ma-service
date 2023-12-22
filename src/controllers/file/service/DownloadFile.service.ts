@@ -1,4 +1,4 @@
-import path from 'path';
+import * as path from 'path';
 
 import { logger } from '../../../log';
 import { ErrorReplyData, IBaseServiceReply, SuccessReplyData } from '../../../types';
