@@ -16,14 +16,12 @@ export const FindTransactionsService = async (
   try {
     const foundTransactions = await prisma.transaction.findMany({
       where: {
+        bankAccount: {
+          user: {
+            id: userId
+          }
+        },
         AND: [
-          {
-            bankAccount: {
-              user: {
-                id: userId
-              }
-            }
-          },
           {
             bankAccount: {
               id: data.bankAccountId
